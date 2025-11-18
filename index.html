@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BF Toys — Online Store</title>
+  <meta name="description" content="BF Toys - Cute, safe & affordable toys for kids. Shop online!" />
+  <style>
+    :root{--accent:#ff6b6b;--muted:#6b7280;background:#f8fafc}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; color:#111;background:var(--muted);}    
+    header{background:white;border-bottom:1px solid #eee;}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
+    .nav{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#ffb86b);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    nav a{margin-left:16px;color:#374151;text-decoration:none;font-weight:600}
+    .hero{display:flex;gap:24px;align-items:center;padding:36px 0}
+    .hero-left{flex:1}
+    .hero h1{font-size:32px;margin:0 0 12px}
+    .hero p{margin:0 0 18px;color:#4b5563}
+    .cta{background:var(--accent);color:white;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
+    .hero-right{flex:1;display:flex;align-items:center;justify-content:center}
+    .mock{width:260px;height:260px;border-radius:18px;background:linear-gradient(135deg,#fff6f6,#fff);box-shadow:0 8px 20px rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;border:1px dashed #ffecec}
+    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin:28px 0}
+    .card{background:white;border-radius:12px;padding:14px;border:1px solid #eee}
+    .card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .card h3{margin:10px 0 6px;font-size:16px}
+    .price{font-weight:700}
+    .add{background:linear-gradient(90deg,var(--accent),#ffb86b);border:none;color:white;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+    .cart{position:fixed;right:18px;bottom:18px;background:white;border-radius:12px;padding:12px;border:1px solid #eee;box-shadow:0 8px 30px rgba(2,6,23,0.08);min-width:220px}
+    .cart h4{margin:0 0 8px}
+    .cart .item{display:flex;justify-content:space-between;margin-bottom:8px}
+    footer{margin-top:36px;padding:26px 0;color:#6b7280}
+    @media(max-width:700px){.hero{flex-direction:column}.hero-right{order:-1}.brand span{display:none}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">BF</div>
+        <div>
+          <div style="font-weight:800">BF Toys</div>
+          <div style="font-size:12px;color:#6b7280">Fun • Safe • Affordable</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Happy toys for little explorers</h1>
+        <p>Shop curated, safe toys for babies and kids. Quality-tested, fast shipping in India. New arrivals every week.</p>
+        <a class="cta" href="#products">Shop Now</a>
+      </div>
+      <div class="hero-right">
+        <div class="mock">Product showcase</div>
+      </div>
+    </section>
+
+    <section id="products">
+      <h2>Popular toys</h2>
+      <div class="products" id="productGrid"></div>
+    </section>
+
+    <section id="about">
+      <h2>About BF Toys</h2>
+      <p style="color:#4b5563">BF Toys is a family-run toy store based in India. We handpick toys prioritising safety, education and joy. Small batches, honest prices.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Want to order in bulk or ask something? WhatsApp us at <strong>+91 8921025509</strong>.</p>
+    </section>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+        <div>© BF Toys</div>
+        <div style="color:#9ca3af">Made with ❤️ — Local toy store</div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="cart" id="cartBox">
+    <h4>Cart</h4>
+    <div id="cartItems"><div style="color:#9ca3af">No items yet</div></div>
+    <div style="margin-top:10px;display:flex;justify-content:space-between">
+      <strong id="cartTotal">₹0</strong>
+      <button class="add" id="checkoutBtn">Checkout</button>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {id:1,name:'Wooden Building Blocks',price:299,img:'https://picsum.photos/seed/block/400/300'},
+      {id:2,name:'Soft Plush Bunny',price:499,img:'https://picsum.photos/seed/bunny/400/300'},
+      {id:3,name:'Racing Car Set',price:399,img:'https://picsum.photos/seed/car/400/300'},
+      {id:4,name:'Stacking Rings',price:249,img:'https://picsum.photos/seed/rings/400/300'},
+      {id:5,name:'Musical Drum',price:549,img:'https://picsum.photos/seed/drum/400/300'},
+      {id:6,name:'Puzzle Board',price:199,img:'https://picsum.photos/seed/puzzle/400/300'}
+    ];
+
+    const productGrid = document.getElementById('productGrid');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    const cart = {};
+
+    function renderProducts(){
+      productGrid.innerHTML = '';
+      products.forEach(p=>{
+        const card = document.createElement('div'); card.className='card';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}" />
+          <h3>${p.name}</h3>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">₹${p.price}</div>
+            <button class="add" onclick="addToCart(${p.id})">Add</button>
+          </div>
+        `;
+        productGrid.appendChild(card);
+      });
+    }
+
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      if(!cart[id]) cart[id] = {...p, qty:0};
+      cart[id].qty += 1;
+      renderCart();
+    }
+
+    function renderCart(){
+      const items = Object.values(cart);
+      if(items.length===0){ cartItemsEl.innerHTML = '<div style="color:#9ca3af">No items yet</div>'; cartTotalEl.textContent='₹0'; return; }
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      items.forEach(it=>{
+        const div = document.createElement('div'); div.className='item';
+        div.innerHTML = `<div>${it.name} x ${it.qty}</div><div>₹${it.price*it.qty}</div>`;
+        cartItemsEl.appendChild(div);
+        total += it.price*it.qty;
+      });
+      cartTotalEl.textContent = '₹' + total;
+    }
+
+    checkoutBtn.addEventListener('click',()=>{
+      const items = Object.values(cart);
+      if(items.length===0){ alert('Cart is empty. Add some toys!'); return; }
+      const summary = items.map(i=>`${i.name} x${i.qty}`).join(', ');
+      const body = encodeURIComponent(`Order details:%0A${summary}%0ATotal: ${cartTotalEl.textContent}`);
+      window.location.href = `https://wa.me/918921025509?text=${body}`;
+    });
+
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
